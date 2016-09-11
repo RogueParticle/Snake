@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="KeyboardState.js"></script>
+	</head>
+	<body>	
+		<div style="z-index:1; position:absolute; top:0px; left:0px;">		
+			<canvas id="snakeCanvas" width="800" height="800" style="border:1px solid #000000;"></canvas>
+		</div>
+		<div style="z-index:2; position:absolute; top:0px; left:0px;">
+			<canvas id="gridCanvas" width="800" height="800" style ="border:1px solid #000000;"></canvas>
+		</div>
+		<div style="z-index:3; position:absolute; top:0px; left:0px;">
+			<canvas id="explosionCanvas" width="800" height="800" style ="border:1px solid #000000;"></canvas>
+		</div>
+		<div style="z-index:0; position:absolute; top:0px; left:820px;">
+			<canvas id="controlCanvas" width="400" height="400" style ="border:2px solid red;"></canvas>
+		</div>		
+		<script src="snake.js"></script>
+	</body>
+</html>
