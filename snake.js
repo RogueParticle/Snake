@@ -8,12 +8,8 @@ snake.init();
 
 var col = new collision();
 
-var level = 1;
-
 var controlPanel = new panel();
-//controlPanel.init();
 controlPanel.lengthDisplay.update(snake.length);
-controlPanel.levelDisplay.update(level);
 
 var delayMax = 80;
 var delay = delayMax; //milliseconds
@@ -23,6 +19,8 @@ var delayCount = delayCountMax;
 controlPanel.speedDisplay.update(speed);
 
 var keyboard = new KeyboardState();
+
+var myScore = new score();
 
 var intervalValue = setInterval(drawScreen, 1);
 			
@@ -466,8 +464,8 @@ function snake() {
 				//when delay is evenly divisable by 10, bump the level
 				var delayMod = delay % 10;
 				if ( delayMod == 0) {
-					level++;
-					controlPanel.levelDisplay.update(level);
+					score = score + increment;
+					controlPanel.scoreDisplay.update(level);
 				}
 			}
 		}
@@ -550,12 +548,12 @@ function panel() {
 	this.ctx.font = '30px Arial';
 	this.ctx.fillStyle = 'black';
 	this.ctx.textAlign = 'left';
-	this.ctx.fillText('Level', 10, this.offset);
+	this.ctx.fillText('Score', 10, this.offset);
 	this.ctx.fillText('Snake Length', 10, this.offset * 2)
 	this.ctx.fillText('Speed', 10, this.offset * 3);
 	
 	this.lengthDisplay = new display(2,this.ctx, this.offset);
-	this.levelDisplay = new display(1,this.ctx, this.offset);
+	this.scoreDisplay = new display(1,this.ctx, this.offset);
 	this.speedDisplay = new display(3,this.ctx, this.offset);
 		
 	function display(displayNumber, ctx, offset) {
@@ -594,9 +592,31 @@ function panel() {
 
 }
 
+function score() {
+	
+	this.value = 0;
+	this.increment = 10;
+	this.start = new Date();
+	this.elapsed;
+	this.current;
+	
+	this.update = function() {
+		this.current = new Date();
+		this.elapsed = this.current - this.start;
+		if ( this.elapsed > 1000 ) {
+			this.value += this.increment;
+			controlPanel.scoreDisplay.update(this.value);
+			var valueMod = this.value % 10000;
+			if ( valueMod = 0 ) this.increment += this.increment;
+			this.start = new Date();
+		}
+	}
+}
+
 function drawScreen(){
 
 	if (!snake.collisionDetected){
+		myScore.update();
 		kbdUpdate();
 		sleep(delay)
 		snake.moveSnake();
